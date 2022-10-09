@@ -2,14 +2,14 @@ version: "3.9"
 
 services:
   django:
-    container_name: django
-    build: ./phonecatalog
-    image: phonecatalog
+    container_name: djforms
+    build: ./djforms
+    image: djforms
     env_file:
       - .env
     command: sh /opt/backend/runserver.sh
     volumes:
-      - ./phonecatalog:/opt/backend
+      - ./djforms:/opt/backend
     ports:
       - 8003:8003
     depends_on:
