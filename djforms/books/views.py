@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
 from .forms import BookFormSet, BookForm
 from .models import Author, Book
@@ -48,3 +48,17 @@ def update_book(request, pk):
     context = {"form": form, "book": book}
 
     return render(request, "partials/book_form.html", context)
+
+
+def delete_book(request, pk):
+    book = get_object_or_404(Book, id=pk)
+
+    if request.method == "POST":
+        book.delete()
+        return HttpResponse("")
+
+    return HttpResponseNotAllowed(
+        [
+            "POST",
+        ]
+    )
