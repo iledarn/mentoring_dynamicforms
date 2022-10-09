@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.http import HttpResponse
 from .forms import BookFormSet, BookForm
 from .models import Author, Book
 
@@ -6,15 +7,24 @@ from .models import Author, Book
 def create_book(request, pk):
     author = Author.objects.get(id=pk)
     books = Book.objects.filter(author=author)
-    formset = BookFormSet(request.POST or None)
+    form = BookForm(request.POST or None)
 
     if request.method == "POST":
-        if formset.is_valid():
-            formset.instance = author
-            formset.save()
-            return redirect("create-book", pk=author.id)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.author = author
+            book.save()
+            return HttpResponse("success")
+        else:
+            return render(request, "partials/book_form.html", context={
+                "form": form
+            })
 
-    context = {"formset": formset, "author": author, "books": books}
+    context = {
+        "form": form,
+        "author": author,
+        "books": books
+    }
 
     return render(request, "create_book.html", context)
 
