@@ -1,0 +1,12 @@
+*.sqlite3
+__pycache__/
+*.pyc
+static/
+media/
+db_data/
+.env
+.python-version
+.venv
+venv
+.idea
+.vim
