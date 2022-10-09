@@ -3,15 +3,21 @@
     <form method="POST">
         {% csrf_token %}
         {{ form }}
+        <button type="submit" hx-post=".">Submit</button>
+
         {% if book %}
         <button type="submit" hx-post="{% url 'update-book' book.id %}">
             Submit
+        </button>
+        <button hx-get="{% url 'detail-book' book.id %}">
+            Cancel
         </button>
         {% else %}
         <button hx-post=".">
             Submit
         </button>
         {% endif %}
+
     </form>
 
 </div>
